@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+
+    app:
+        container_name: ${SYSTEM_NAME_APP}
+        hostname: ${SYSTEM_NAME_APP}
+        restart: always
+        working_dir: ${SRC_PATH}
+        build:
+            context: .
+            dockerfile: php/fpm/Dockerfile
+            args:
+                - "UID"
+                - "GID"
+                - "USER_NAME"
+        environment:
+            PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+            UID: ${UID}
+            GID: ${GID}
+            USER_NAME: ${USER_NAME}
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        volumes:
+            - ../app:${SRC_PATH}
+            - ./php/php-ini-overrides.ini:/etc/php/8.3/fpm/conf.d/99-overrides.ini
+            - ./php/php-ini-overrides.ini:/etc/php/8.3/cli/conf.d/99-overrides.ini
+            - composer:/root/.composer/cache
+
+volumes:
+    composer:
+

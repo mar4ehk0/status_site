@@ -1,0 +1,25 @@
+{
+    "name": "mar4ehk0/status_site",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mar4echk0"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "symfony/dependency-injection": "^7.0.3",
+        "symfony/console": "^7.0.3",
+        "symfony/dotenv": "^7.0",
+        "symfony/http-client": "^7.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "symfony/var-dumper": "^6.3"
+    }
+}

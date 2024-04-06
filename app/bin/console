@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../src/bootstrap.php';
+
+use App\CommandLoader;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+/** @var ContainerBuilder $containerBuilder */
+
+$commandLoader = new ContainerCommandLoader($containerBuilder, CommandLoader::load());
+
+$application = new Application();
+$application->setCommandLoader($commandLoader);
+$application->run();

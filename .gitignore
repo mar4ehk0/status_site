@@ -1,0 +1,14 @@
+# app
+/app/var/cache
+/app/var/tmp
+/app/.env
+/app/*.html
+/app/.phpunit.cache
+/app/*.lst
+
+# ide
+docker/.env
+.idea
+.vscode
+
+
