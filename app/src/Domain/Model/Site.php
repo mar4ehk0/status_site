@@ -2,6 +2,7 @@
 
 namespace App\Domain\Model;
 
+use DateInterval;
 use DateTime;
 
 class Site
@@ -30,14 +31,19 @@ class Site
         return $this->status === SiteStatusEnum::Down;
     }
 
-    public function setUp(): void
+    public function setUpAndCalculateDowntime(): DateInterval
     {
         $this->status = SiteStatusEnum::Up;
+        $downtime = $this->time->diff(new DateTime());
+
+        $this->time = new DateTime();
+        return $downtime;
     }
 
     public function setDown(): void
     {
         $this->status = SiteStatusEnum::Down;
+        $this->time = new DateTime();
     }
 
     public function getSuccessCode(): int

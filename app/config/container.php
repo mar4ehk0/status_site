@@ -1,10 +1,14 @@
 <?php
 
 use App\Domain\Repository\SiteRepositoryInterface;
+use App\Domain\Service\NotifierInterface;
 use App\Infrastructure\Client;
 use App\Infrastructure\Repository\FileJson\Site\FileJsonDataObject;
 use App\Infrastructure\Repository\FileJson\Site\ParserFromJsonToObject;
 use App\Infrastructure\Repository\FileJson\Site\SiteRepositoryFileJson;
+use App\Infrastructure\Service\Notifier\EmailNotifier;
+use App\Infrastructure\Service\Notifier\Notifier;
+use App\Infrastructure\Service\Notifier\SlackNotifier;
 use App\UseCase\SiteCheckerUseCase;
 use App\UserInterface\Console\SiteCheckerCommand;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -37,11 +41,19 @@ $containerBuilder->register(SiteCheckerUseCase::class, SiteCheckerUseCase::class
     ->setArguments([
         new Reference(Client::class),
         new Reference(SiteRepositoryInterface::class),
+        new Reference(NotifierInterface::class),
     ]);
 $containerBuilder->register(SiteCheckerCommand::class, SiteCheckerCommand::class)
     ->setArguments([
         new Reference(SiteCheckerUseCase::class)
     ]);
 
+$containerBuilder->register(EmailNotifier::class, EmailNotifier::class);
+$containerBuilder->register(SlackNotifier::class, SlackNotifier::class);
+$containerBuilder->register(NotifierInterface::class, Notifier::class)
+    ->setArguments([
+        new Reference(EmailNotifier::class),
+        new Reference(SlackNotifier::class)
+    ]);
 
 return $containerBuilder;
