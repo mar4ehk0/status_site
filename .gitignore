@@ -6,6 +6,7 @@
 /app/.phpunit.cache
 /app/*.lst
 /app/storage/*.json
+/app/storage/sites_config.json
 
 # ide
 docker/.env
