@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure;
 
-
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 

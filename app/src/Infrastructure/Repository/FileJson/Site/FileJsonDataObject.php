@@ -35,7 +35,7 @@ class FileJsonDataObject
     public function load(): array
     {
         $data = file_get_contents($this->pathToConfig);
-        $rows = json_decode($data,true);
+        $rows = json_decode($data, true);
 
         $this->validateJsonRows($rows);
 
@@ -48,8 +48,9 @@ class FileJsonDataObject
         return $result;
     }
 
-    public function add(Site $site):void
+    public function add(Site $site): void
     {
+        // @todo implements
         throw new Exception('Does not implement ' . __METHOD__);
     }
 
@@ -63,7 +64,6 @@ class FileJsonDataObject
 
         $this->writeToFileStorage($pathToFileStorage, $site);
     }
-
 
     private function validateJsonRows(array $rows): void
     {
@@ -107,5 +107,4 @@ class FileJsonDataObject
         $siteJson = $this->fileJsonDataMapper->mapFromObjectToJson($site);
         file_put_contents($path, $siteJson);
     }
-
 }

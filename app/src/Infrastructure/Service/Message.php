@@ -53,5 +53,4 @@ class Message
 
         return implode(' ', $timeInterval);
     }
-
 }

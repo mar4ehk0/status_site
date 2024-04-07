@@ -16,7 +16,6 @@ class SiteCheckerUseCase
         private NotifierInterface $notifier,
         private Message $message
     ) {
-
     }
 
     public function handle(): bool

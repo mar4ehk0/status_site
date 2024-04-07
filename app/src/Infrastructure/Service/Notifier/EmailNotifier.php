@@ -12,6 +12,6 @@ class EmailNotifier implements NotifierInterface
     }
     private function sendToEmail(string $message)
     {
-        file_put_contents('/tmp/notifier',__METHOD__, FILE_APPEND);
+        file_put_contents('/tmp/notifier', __METHOD__, FILE_APPEND);
     }
 }
