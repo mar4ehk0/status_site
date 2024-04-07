@@ -4,8 +4,9 @@ use App\Domain\Repository\SiteRepositoryInterface;
 use App\Domain\Service\NotifierInterface;
 use App\Infrastructure\Client;
 use App\Infrastructure\Repository\FileJson\Site\FileJsonDataObject;
-use App\Infrastructure\Repository\FileJson\Site\ParserFromJsonToObject;
+use App\Infrastructure\Repository\FileJson\Site\SiteFileJsonDataMapper;
 use App\Infrastructure\Repository\FileJson\Site\SiteRepositoryFileJson;
+use App\Infrastructure\Service\Message;
 use App\Infrastructure\Service\Notifier\EmailNotifier;
 use App\Infrastructure\Service\Notifier\Notifier;
 use App\Infrastructure\Service\Notifier\SlackNotifier;
@@ -18,12 +19,12 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 $containerBuilder = new ContainerBuilder();
 
-$containerBuilder->register(ParserFromJsonToObject::class, ParserFromJsonToObject::class);
+$containerBuilder->register(SiteFileJsonDataMapper::class, SiteFileJsonDataMapper::class);
 $containerBuilder->register(FileJsonDataObject::class, FileJsonDataObject::class)
     ->setArguments([
         STORAGE_PATH,
         STORAGE_PATH . 'sites_config.json',
-        new Reference(ParserFromJsonToObject::class)
+        new Reference(SiteFileJsonDataMapper::class)
     ]);
 
 $containerBuilder->register(SiteRepositoryInterface::class, SiteRepositoryFileJson::class)
@@ -42,6 +43,7 @@ $containerBuilder->register(SiteCheckerUseCase::class, SiteCheckerUseCase::class
         new Reference(Client::class),
         new Reference(SiteRepositoryInterface::class),
         new Reference(NotifierInterface::class),
+        new Reference(Message::class),
     ]);
 $containerBuilder->register(SiteCheckerCommand::class, SiteCheckerCommand::class)
     ->setArguments([
@@ -54,6 +56,12 @@ $containerBuilder->register(NotifierInterface::class, Notifier::class)
     ->setArguments([
         new Reference(EmailNotifier::class),
         new Reference(SlackNotifier::class)
+    ]);
+
+$containerBuilder->register(Message::class, Message::class)
+    ->setArguments([
+        getenv('TMP_MSG_SITE_DOWN'),
+        getenv('TMP_MSG_SITE_UP')
     ]);
 
 return $containerBuilder;

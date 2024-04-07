@@ -5,13 +5,16 @@ namespace App\UseCase;
 use App\Domain\Repository\SiteRepositoryInterface;
 use App\Domain\Service\NotifierInterface;
 use App\Infrastructure\Client;
+use App\Infrastructure\Service\Message;
+use DateTime;
 
 class SiteCheckerUseCase
 {
     public function __construct(
         private Client $client,
         private SiteRepositoryInterface $siteRepository,
-        private NotifierInterface $notifier
+        private NotifierInterface $notifier,
+        private Message $message
     ) {
 
     }
@@ -21,17 +24,18 @@ class SiteCheckerUseCase
         $sites = $this->siteRepository->getAll();
         foreach ($sites as $site) {
             $response = $this->client->get($site->getUrl());
-            if ($response->getStatusCode() === $site->getSuccessCode() && $site->isUp()) {
-                // not send
-            } elseif ($response->getStatusCode() !== $site->getSuccessCode() && $site->isUp()) {
-                $this->notifier->send('site down');
+            if ($response->getStatusCode() !== $site->getSuccessCode() && $site->isUp()) {
                 // send message = 'site is down' and change status site. save status sites.
-            } elseif ($response->getStatusCode() !== $site->getSuccessCode() && $site->isDown()) {
-                // not send
+                $site->setDown();
+                $msgDown = $this->message->createMsgDown($site, new DateTime());
+                $this->notifier->send($msgDown);
             } elseif ($response->getStatusCode() === $site->getSuccessCode() && $site->isDown()) {
                 // send message = 'site is up' and change status site. save status sites.
-                $this->notifier->send('site up');
+                $timeInterval = $site->setUpAndCalculateDowntime();
+                $msgUp = $this->message->createMsgUp($site, new DateTime(), $timeInterval);
+                $this->notifier->send($msgUp);
             }
+            $this->siteRepository->update($site);
         }
 
         return true;
