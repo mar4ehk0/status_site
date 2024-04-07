@@ -25,7 +25,7 @@ class FileJsonDataObject
     public function __construct(
         private string $pathToStorage,
         private string $pathToConfig,
-        private ParserFromJsonToObject $parser
+        private SiteFileJsonDataMapper $fileJsonDataMapper
     ) {
         if (!file_exists($this->pathToConfig)) {
             throw new Exception('File storage sites_config.json does not exit');
@@ -43,9 +43,25 @@ class FileJsonDataObject
 
         $result = [];
         foreach ($this->pathToFileStorages as $key => $path) {
-            $result[$key] = $this->parseFromJsonToObject($path);
+            $result[$key] = $this->readFromFileStorage($path);
         }
         return $result;
+    }
+
+    public function add(Site $site):void
+    {
+        throw new Exception('Does not implement ' . __METHOD__);
+    }
+
+    public function update(string $siteName, Site $site): void
+    {
+        if (!array_key_exists($siteName, $this->pathToFileStorages)) {
+            throw new Exception(sprintf('Does not exit file for site: %s. Please call method add.', $siteName));
+        }
+
+        $pathToFileStorage = $this->pathToFileStorages[$siteName];
+
+        $this->writeToFileStorage($pathToFileStorage, $site);
     }
 
 
@@ -80,13 +96,16 @@ class FileJsonDataObject
         return $result;
     }
 
-    private function parseFromJsonToObject(string $path): Site
+    private function readFromFileStorage(string $path): Site
     {
-        $rawSite = json_decode(file_get_contents($path), true);
-        $site = $this->parser->handle($rawSite);
-
-        return $site;
+        $rawSite = file_get_contents($path);
+        return $this->fileJsonDataMapper->mapFromJsonToObject($rawSite);
     }
 
+    private function writeToFileStorage(string $path, Site $site): void
+    {
+        $siteJson = $this->fileJsonDataMapper->mapFromObjectToJson($site);
+        file_put_contents($path, $siteJson);
+    }
 
 }

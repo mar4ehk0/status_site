@@ -16,11 +16,6 @@ class Site
     ) {
     }
 
-    public function getUrl(): string
-    {
-        return $this->url;
-    }
-
     public function isUp(): bool
     {
         return $this->status === SiteStatusEnum::Up;
@@ -44,6 +39,26 @@ class Site
     {
         $this->status = SiteStatusEnum::Down;
         $this->time = new DateTime();
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getStatus(): SiteStatusEnum
+    {
+        return $this->status;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function getTime(): DateTime
+    {
+        return $this->time;
     }
 
     public function getSuccessCode(): int
