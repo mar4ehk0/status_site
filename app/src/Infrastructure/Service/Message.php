@@ -29,7 +29,7 @@ class Message
         return $result;
     }
 
-    private function createHumanDownTime(DateInterval $dateInterval)
+    private function createHumanDownTime(DateInterval $dateInterval): string
     {
         $timeInterval = [];
         if ($dateInterval->y) {

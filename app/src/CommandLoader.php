@@ -6,6 +6,10 @@ use Symfony\Component\Console\Attribute\AsCommand;
 
 class CommandLoader
 {
+    /**
+     * @return array<string, string>
+     * @throws \ReflectionException
+     */
     public static function load(): array
     {
         $patternPath = SRC_PATH . 'UserInterface' . '/' . 'Console' . '/' . '*Command.php';
@@ -33,6 +37,11 @@ class CommandLoader
         return $result;
     }
 
+    /**
+     * @param string[] $namespaces
+     * @return array<string, string>
+     * @throws \ReflectionException
+     */
     private function createCommandMap(array $namespaces): array
     {
         $result = [];
@@ -42,6 +51,8 @@ class CommandLoader
                 $result[$attribute[0]->newInstance()->name] = $namespace;
             }
         }
+
+        var_dump($result);
 
         return $result;
     }

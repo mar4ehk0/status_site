@@ -7,6 +7,7 @@ use App\Domain\Repository\SiteRepositoryInterface;
 
 class SiteRepositoryFileJson implements SiteRepositoryInterface
 {
+    /** @var array<string, Site> $sites */
     private array $sites;
 
     public function __construct(private FileJsonDataObject $fileJsonDataObject)

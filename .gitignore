@@ -8,10 +8,12 @@
 /app/*.lst
 /app/storage/*.json
 /app/storage/sites_config.json
+/app/phpstan.neon
 
 # ide
 docker/.env
 .idea
 .vscode
+
 
 

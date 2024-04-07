@@ -10,7 +10,7 @@ class SlackNotifier implements NotifierInterface
     {
         $this->sendToSlack($message);
     }
-    private function sendToSlack(string $message)
+    private function sendToSlack(string $message): void
     {
         file_put_contents('/tmp/notifier', __METHOD__, FILE_APPEND);
     }

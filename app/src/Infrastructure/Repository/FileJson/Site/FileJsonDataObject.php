@@ -32,6 +32,10 @@ class FileJsonDataObject
         }
     }
 
+    /**
+     * @return array<string, Site>
+     * @throws Exception
+     */
     public function load(): array
     {
         $data = file_get_contents($this->pathToConfig);
@@ -65,6 +69,9 @@ class FileJsonDataObject
         $this->writeToFileStorage($pathToFileStorage, $site);
     }
 
+    /**
+     * @param array<array{"name": string, "url": string, "status": string, "system_storage_file": string, "time": string, "success_code": int}> $rows
+     */
     private function validateJsonRows(array $rows): void
     {
         foreach (self::REQUIRED_FIELDS as $field) {
@@ -77,7 +84,7 @@ class FileJsonDataObject
     }
 
     /**
-     * @param array $rows
+     * @param array<array{"name": string, "url": string, "status": string, "system_storage_file": string, "time": string, "success_code": int}> $rows
      * @return string[]
      */
     private function getOrCreateFileStorage(array $rows): array

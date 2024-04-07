@@ -10,7 +10,7 @@ class EmailNotifier implements NotifierInterface
     {
         $this->sendToEmail($message);
     }
-    private function sendToEmail(string $message)
+    private function sendToEmail(string $message): void
     {
         file_put_contents('/tmp/notifier', __METHOD__, FILE_APPEND);
     }
