@@ -1,6 +1,7 @@
 # app
 /app/var/cache
 /app/var/tmp
+/app/vendor
 /app/.env
 /app/*.html
 /app/.phpunit.cache
