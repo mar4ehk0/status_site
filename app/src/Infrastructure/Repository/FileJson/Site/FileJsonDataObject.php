@@ -70,7 +70,12 @@ class FileJsonDataObject
     }
 
     /**
-     * @param array<array{"name": string, "url": string, "status": string, "system_storage_file": string, "time": string, "success_code": int}> $rows
+     * @param array<array{"name": string,
+     *      "url": string,
+     *      "status": string,
+     *      "system_storage_file": string,
+     *      "time": string,
+     *      "success_code": int}> $rows
      */
     private function validateJsonRows(array $rows): void
     {
@@ -84,7 +89,12 @@ class FileJsonDataObject
     }
 
     /**
-     * @param array<array{"name": string, "url": string, "status": string, "system_storage_file": string, "time": string, "success_code": int}> $rows
+     * @param array<array{"name": string,
+     *       "url": string,
+     *       "status": string,
+     *       "system_storage_file": string,
+     *       "time": string,
+     *       "success_code": int}> $rows
      * @return string[]
      */
     private function getOrCreateFileStorage(array $rows): array
