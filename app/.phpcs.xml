@@ -2,4 +2,5 @@
 <ruleset name="Standard Rules PSR12">
     <rule ref="PSR12"/>
     <file>src</file>
+    <file>tests</file>
 </ruleset>

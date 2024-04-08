@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 class SiteTest extends TestCase
 {
-
     public function testFailWhenUrlFailed(): void
     {
         $this->expectException(Exception::class);
