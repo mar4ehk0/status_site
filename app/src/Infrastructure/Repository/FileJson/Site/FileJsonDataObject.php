@@ -8,15 +8,6 @@ use Exception;
 
 class FileJsonDataObject
 {
-    private const REQUIRED_FIELDS = [
-        EnumFields::NAME => EnumFields::NAME,
-        EnumFields::URL => EnumFields::URL,
-        EnumFields::STATUS => EnumFields::STATUS,
-        EnumFields::SYSTEM_STORAGE_FILE => EnumFields::SYSTEM_STORAGE_FILE,
-        EnumFields::TIME => EnumFields::TIME,
-        EnumFields::SUCCESS_CODE => EnumFields::SUCCESS_CODE
-    ];
-
     /**
      * @var string[]
      */
@@ -25,7 +16,8 @@ class FileJsonDataObject
     public function __construct(
         private string $pathToStorage,
         private string $pathToConfig,
-        private SiteFileJsonDataMapper $fileJsonDataMapper
+        private SiteFileJsonDataMapper $fileJsonDataMapper,
+        private Validator $validator,
     ) {
         if (!file_exists($this->pathToConfig)) {
             throw new Exception('File storage sites_config.json does not exit');
@@ -40,8 +32,7 @@ class FileJsonDataObject
     {
         $data = file_get_contents($this->pathToConfig);
         $rows = json_decode($data, true);
-
-        $this->validateJsonRows($rows);
+        $this->validateConfigRows($rows);
 
         $this->pathToFileStorages = $this->getOrCreateFileStorage($rows);
 
@@ -77,14 +68,10 @@ class FileJsonDataObject
      *      "time": string,
      *      "success_code": int}> $rows
      */
-    private function validateJsonRows(array $rows): void
+    private function validateConfigRows(array $rows): void
     {
-        foreach (self::REQUIRED_FIELDS as $field) {
-            foreach ($rows as $key => $row) {
-                if (!array_key_exists($field, $row)) {
-                    throw new Exception(sprintf('Does not exist field: %s in site: %d', $field, $key));
-                }
-            }
+        foreach ($rows as $row) {
+            $this->validator->validate($row);
         }
     }
 
@@ -101,13 +88,13 @@ class FileJsonDataObject
     {
         $result = [];
         foreach ($rows as $row) {
-            $pathFileStorage = $this->pathToStorage . $row[self::REQUIRED_FIELDS[EnumFields::SYSTEM_STORAGE_FILE]];
+            $pathFileStorage = $this->pathToStorage . $row[EnumFields::SYSTEM_STORAGE_FILE];
             if (!file_exists($pathFileStorage)) {
-                unset($row[self::REQUIRED_FIELDS[EnumFields::SYSTEM_STORAGE_FILE]]);
-                $row[self::REQUIRED_FIELDS[EnumFields::TIME]] = (new DateTime())->format(DATE_ATOM);
+                unset($row[EnumFields::SYSTEM_STORAGE_FILE]);
+                $row[EnumFields::TIME] = (new DateTime())->format(DATE_ATOM);
                 file_put_contents($pathFileStorage, json_encode($row, JSON_PRETTY_PRINT));
             }
-            $result[$row[self::REQUIRED_FIELDS[EnumFields::NAME]]] = $pathFileStorage;
+            $result[$row[EnumFields::NAME]] = $pathFileStorage;
         }
 
         return $result;

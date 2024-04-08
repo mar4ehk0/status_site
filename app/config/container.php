@@ -6,6 +6,7 @@ use App\Infrastructure\Client;
 use App\Infrastructure\Repository\FileJson\Site\FileJsonDataObject;
 use App\Infrastructure\Repository\FileJson\Site\SiteFileJsonDataMapper;
 use App\Infrastructure\Repository\FileJson\Site\SiteRepositoryFileJson;
+use App\Infrastructure\Repository\FileJson\Site\Validator;
 use App\Infrastructure\Service\Message;
 use App\Infrastructure\Service\Notifier\EmailNotifier;
 use App\Infrastructure\Service\Notifier\Notifier;
@@ -20,11 +21,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 $containerBuilder = new ContainerBuilder();
 
 $containerBuilder->register(SiteFileJsonDataMapper::class, SiteFileJsonDataMapper::class);
+$containerBuilder->register(Validator::class, Validator::class);
 $containerBuilder->register(FileJsonDataObject::class, FileJsonDataObject::class)
     ->setArguments([
         STORAGE_PATH,
         STORAGE_PATH . 'sites_config.json',
-        new Reference(SiteFileJsonDataMapper::class)
+        new Reference(SiteFileJsonDataMapper::class),
+        new Reference(Validator::class),
     ]);
 
 $containerBuilder->register(SiteRepositoryInterface::class, SiteRepositoryFileJson::class)
@@ -63,5 +66,7 @@ $containerBuilder->register(Message::class, Message::class)
         getenv('TMP_MSG_SITE_DOWN'),
         getenv('TMP_MSG_SITE_UP')
     ]);
+
+
 
 return $containerBuilder;
