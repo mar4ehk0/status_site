@@ -37,5 +37,17 @@ shell: ## Start shell into backend container
 	@printf ${COLOR} 'Login to backend container';
 	docker exec -ti ${SYSTEM_NAME_APP} bash
 
+.PHONY: cs
+cs: ## run PHP Code Sniffer
+	docker exec -ti ${SYSTEM_NAME_APP} vendor/bin/phpcs
+
+.PHONY: pstan
+pstan: ## run PSTAN
+	docker exec -ti ${SYSTEM_NAME_APP} vendor/bin/phpstan
+
+.PHONY: test
+test: ## run php test
+	docker exec -ti ${SYSTEM_NAME_APP} vendor/bin/phpunit tests/
+
 # Global
 .DEFAULT_GOAL := help
