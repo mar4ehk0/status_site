@@ -4,6 +4,7 @@ namespace App\Domain\Model;
 
 use DateInterval;
 use DateTime;
+use Exception;
 
 class Site
 {
@@ -14,6 +15,9 @@ class Site
         private DateTime $time,
         private int $successCode,
     ) {
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new Exception('Url has wrong format.');
+        }
     }
 
     public function isUp(): bool
@@ -28,17 +32,23 @@ class Site
 
     public function setUpAndCalculateDowntime(): DateInterval
     {
-        $this->status = SiteStatusEnum::Up;
-        $downtime = $this->time->diff(new DateTime());
+        $downtime = DateInterval::createFromDateString('0 seconds');
+        if ($this->isDown()) {
+            $downtime = $this->time->diff(new DateTime());
+            $this->time = new DateTime();
+        }
 
-        $this->time = new DateTime();
+        $this->status = SiteStatusEnum::Up;
         return $downtime;
     }
 
     public function setDown(): void
     {
+        if ($this->isUp()) {
+            $this->time = new DateTime();
+        }
+
         $this->status = SiteStatusEnum::Down;
-        $this->time = new DateTime();
     }
 
     public function getName(): string

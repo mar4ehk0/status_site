@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Service;
 
 use App\Domain\Model\Site;
+use App\Infrastructure\DateTimeInterval;
 use DateInterval;
 use DateTime;
 
@@ -23,34 +24,9 @@ class Message
 
     public function createMsgUp(Site $site, DateTime $time, DateInterval $interval): string
     {
-        $humanDowntime = $this->createHumanDownTime($interval);
+        $humanDowntime = DateTimeInterval::createHumanInterval($interval);
         $result = sprintf($this->templateMsgUp, $site->getName(), $time->format(DATE_ATOM), $humanDowntime);
 
         return $result;
-    }
-
-    private function createHumanDownTime(DateInterval $dateInterval): string
-    {
-        $timeInterval = [];
-        if ($dateInterval->y) {
-            $timeInterval[] = $dateInterval->y . ' year';
-        }
-        if ($dateInterval->m) {
-            $timeInterval[] = $dateInterval->m . ' month';
-        }
-        if ($dateInterval->d) {
-            $timeInterval[] = $dateInterval->d . ' day';
-        }
-        if ($dateInterval->h) {
-            $timeInterval[] = $dateInterval->h . ' hour';
-        }
-        if ($dateInterval->i) {
-            $timeInterval[] = $dateInterval->i . ' minute';
-        }
-        if ($dateInterval->s) {
-            $timeInterval[] = $dateInterval->s . ' second';
-        }
-
-        return implode(' ', $timeInterval);
     }
 }
