@@ -6,14 +6,7 @@ on:
 
 jobs:
   build:
-
-    name: (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: ['8.3']
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -22,10 +15,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
-          tools: phpunit-bridge
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
-          coverage: xdebug
+          php-version: 8.3
 
       - name: Validate composer.json and composer.lock
         working-directory: ./app
