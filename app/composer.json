@@ -1,6 +1,8 @@
 {
     "name": "mar4ehk0/status_site",
     "type": "project",
+    "license": "MIT",
+    "description": "check if the site is available and if not, send notifications.",
     "autoload": {
         "psr-4": {
             "App\\": "src/"
