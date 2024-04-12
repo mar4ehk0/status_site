@@ -11,6 +11,9 @@ use Exception;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class SiteTest extends TestCase
 {
     public function testFailWhenUrlFailed(): void

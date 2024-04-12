@@ -2,13 +2,15 @@
 
 namespace App;
 
+use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 class CommandLoader
 {
     /**
      * @return array<string, string>
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function load(): array
     {
@@ -40,14 +42,14 @@ class CommandLoader
     /**
      * @param string[] $namespaces
      * @return array<string, string>
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function createCommandMap(array $namespaces): array
     {
         $result = [];
 
         foreach ($namespaces as $namespace) {
-            if ($attribute = (new \ReflectionClass($namespace))->getAttributes(AsCommand::class)) {
+            if ($attribute = (new ReflectionClass($namespace))->getAttributes(AsCommand::class)) {
                 $result[$attribute[0]->newInstance()->name] = $namespace;
             }
         }

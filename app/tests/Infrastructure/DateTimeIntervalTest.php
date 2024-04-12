@@ -7,6 +7,9 @@ use DateTime;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class DateTimeIntervalTest extends TestCase
 {
     #[DataProvider('createDataProviderCanCreateHumanInterval')]
