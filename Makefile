@@ -39,11 +39,11 @@ shell: ## Start shell into backend container
 
 .PHONY: lint
 lint: ## check Code Style PHP
-	docker exec -ti ${SYSTEM_NAME_APP} composer cs-fix fix -- --dry-run --diff
+	docker exec -ti ${SYSTEM_NAME_APP} composer lint
 
 .PHONY: cs-fix
 cs-fix: ## fix Code Style PHP
-	docker exec -ti ${SYSTEM_NAME_APP} composer cs-fix fix
+	docker exec -ti ${SYSTEM_NAME_APP} composer fix
 
 .PHONY: pstan
 pstan: ## run PSTAN

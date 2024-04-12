@@ -29,6 +29,8 @@
     },
     "scripts": {
         "test": "phpunit --colors=always",
-        "cs-fix": "php-cs-fixer --config=.php-cs-fixer.php --allow-risky=yes"
+        "_php-cs-fixer": "php-cs-fixer --config=.php-cs-fixer.php --allow-risky=yes",
+        "lint": "@_php-cs-fixer check --diff",
+        "fix": "@_php-cs-fixer fix"
     }
 }
