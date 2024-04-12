@@ -12,7 +12,7 @@ class Validator
         EnumFields::STATUS => EnumFields::STATUS,
         EnumFields::SYSTEM_STORAGE_FILE => EnumFields::SYSTEM_STORAGE_FILE,
         EnumFields::TIME => EnumFields::TIME,
-        EnumFields::SUCCESS_CODE => EnumFields::SUCCESS_CODE
+        EnumFields::SUCCESS_CODE => EnumFields::SUCCESS_CODE,
     ];
 
     /**

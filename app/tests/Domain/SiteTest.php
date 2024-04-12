@@ -59,7 +59,7 @@ class SiteTest extends TestCase
         $expectedValue = DateTimeInterval::createHumanInterval($expectedInterval);
 
         // act
-        $interval =  $site->setUpAndCalculateDowntime();
+        $interval = $site->setUpAndCalculateDowntime();
         $value = DateTimeInterval::createHumanInterval($interval);
         $timeWhenWasUp = $site->getTime();
 
@@ -79,7 +79,7 @@ class SiteTest extends TestCase
         $expectedValue = DateTimeInterval::createHumanInterval($expectedInterval);
 
         // act
-        $interval =  $site->setUpAndCalculateDowntime();
+        $interval = $site->setUpAndCalculateDowntime();
         $value = DateTimeInterval::createHumanInterval($interval);
         $timeWhenWasUp = $site->getTime();
 

@@ -2,7 +2,6 @@
 
 namespace App\UserInterface\Console;
 
-use App\UseCase\DTO;
 use App\UseCase\SiteCheckerUseCase;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +18,7 @@ class SiteCheckerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-//        $sum = $input->getArgument(self::SUM);
+        //        $sum = $input->getArgument(self::SUM);
         $this->checkerUseCase->handle();
 
         return self::SUCCESS;
