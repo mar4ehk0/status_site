@@ -62,7 +62,7 @@ class SiteTest extends TestCase
         $expectedValue = DateTimeInterval::createHumanInterval($expectedInterval);
 
         // act
-        $interval = $site->setUpAndCalculateDowntime();
+        $interval = $site->setUpAndCalculateDowntime(new DateTime("2024-04-06 12:10:00"));
         $value = DateTimeInterval::createHumanInterval($interval);
         $timeWhenWasUp = $site->getTime();
 
@@ -82,7 +82,7 @@ class SiteTest extends TestCase
         $expectedValue = DateTimeInterval::createHumanInterval($expectedInterval);
 
         // act
-        $interval = $site->setUpAndCalculateDowntime();
+        $interval = $site->setUpAndCalculateDowntime(new DateTime());
         $value = DateTimeInterval::createHumanInterval($interval);
         $timeWhenWasUp = $site->getTime();
 
@@ -100,7 +100,7 @@ class SiteTest extends TestCase
         $site = new Site('siteName', 'http://example.com', $status, $time, 200);
 
         // act
-        $site->setDown();
+        $site->setDown(new DateTime("2024-04-10 16:15:00"));
         $timeWhenWasDown = $site->getTime();
 
         // assert
@@ -116,7 +116,7 @@ class SiteTest extends TestCase
         $site = new Site('siteName', 'http://example.com', $status, $time, 200);
 
         // act
-        $site->setDown();
+        $site->setDown(new DateTime("2024-04-06 12:10:00"));
         $timeWhenWasDown = $site->getTime();
 
         // assert

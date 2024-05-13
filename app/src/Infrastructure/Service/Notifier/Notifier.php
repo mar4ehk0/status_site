@@ -2,7 +2,10 @@
 
 namespace App\Infrastructure\Service\Notifier;
 
+use App\Domain\Model\Site;
 use App\Domain\Service\NotifierInterface;
+use DateInterval;
+use DateTime;
 
 class Notifier implements NotifierInterface
 {
@@ -16,12 +19,17 @@ class Notifier implements NotifierInterface
         $this->notifiers = $notifiers;
     }
 
-    public function send(string $message): void
+    public function sendMessageDown(Site $site, DateTime $time): void
     {
-        file_put_contents('/tmp/notifier', "");
-
         foreach ($this->notifiers as $notifier) {
-            $notifier->send($message);
+            $notifier->sendMessageDown($site, $time);
+        }
+    }
+
+    public function sendMessageUp(Site $site, DateTime $time, DateInterval $interval): void
+    {
+        foreach ($this->notifiers as $notifier) {
+            $notifier->sendMessageUp($site, $time, $interval);
         }
     }
 }

@@ -30,22 +30,22 @@ class Site
         return $this->status === SiteStatusEnum::Down;
     }
 
-    public function setUpAndCalculateDowntime(): DateInterval
+    public function setUpAndCalculateDowntime(DateTime $dateTime): DateInterval
     {
         $downtime = DateInterval::createFromDateString('0 seconds');
         if ($this->isDown()) {
-            $downtime = $this->time->diff(new DateTime());
-            $this->time = new DateTime();
+            $downtime = $this->time->diff($dateTime);
+            $this->time = $dateTime;
         }
 
         $this->status = SiteStatusEnum::Up;
         return $downtime;
     }
 
-    public function setDown(): void
+    public function setDown(DateTime $dateTime): void
     {
         if ($this->isUp()) {
-            $this->time = new DateTime();
+            $this->time = $dateTime;
         }
 
         $this->status = SiteStatusEnum::Down;

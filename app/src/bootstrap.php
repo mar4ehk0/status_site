@@ -1,5 +1,7 @@
 <?php
 
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 use Symfony\Component\Dotenv\Dotenv;
 
 // phpcs:ignoreFile
@@ -14,10 +16,15 @@ define('VAR_TMP_PATH', VAR_PATH . 'tmp/');
 require ROOT_PATH . 'vendor/autoload.php';
 
 if (!file_exists(__DIR__ . '/../.env')) {
-    error_log('.env file not found');
+    echo '.env file not found';
     exit;
 }
+
+date_default_timezone_set('Europe/Moscow');
 
 (new Dotenv())->usePutenv()->bootEnv(__DIR__ . '/../.env');
 
 $containerBuilder = include CONFIG_PATH . '/container.php';
+
+$logger = new Logger('main');
+$logger->pushHandler(new RotatingFileHandler(VAR_PATH . 'log/main.log'));

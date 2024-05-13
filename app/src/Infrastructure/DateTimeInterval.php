@@ -8,24 +8,26 @@ class DateTimeInterval
 {
     public static function createHumanInterval(DateInterval $dateInterval): string
     {
+
+        // @todo добавить множественное значение.
         $timeInterval = [];
         if ($dateInterval->y) {
-            $timeInterval[] = $dateInterval->y . ' year';
+            $timeInterval[] = $dateInterval->y . ' год';
         }
         if ($dateInterval->m) {
-            $timeInterval[] = $dateInterval->m . ' month';
+            $timeInterval[] = $dateInterval->m . ' месяц';
         }
         if ($dateInterval->d) {
-            $timeInterval[] = $dateInterval->d . ' day';
+            $timeInterval[] = $dateInterval->d . ' день';
         }
         if ($dateInterval->h) {
-            $timeInterval[] = $dateInterval->h . ' hour';
+            $timeInterval[] = $dateInterval->h . ' час';
         }
         if ($dateInterval->i) {
-            $timeInterval[] = $dateInterval->i . ' minute';
+            $timeInterval[] = $dateInterval->i . ' минута';
         }
         if ($dateInterval->s) {
-            $timeInterval[] = $dateInterval->s . ' second';
+            $timeInterval[] = $dateInterval->s . ' секунда';
         }
 
         return implode(' ', $timeInterval);

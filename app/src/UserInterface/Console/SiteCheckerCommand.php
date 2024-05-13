@@ -18,7 +18,6 @@ class SiteCheckerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        //        $sum = $input->getArgument(self::SUM);
         $this->checkerUseCase->handle();
 
         return self::SUCCESS;

@@ -7,7 +7,7 @@ use App\Infrastructure\DateTimeInterval;
 use DateInterval;
 use DateTime;
 
-class Message
+class MessageGenerator
 {
     public function __construct(
         private string $templateMsgDown,
@@ -17,7 +17,13 @@ class Message
 
     public function createMsgDown(Site $site, DateTime $time): string
     {
-        $result = sprintf($this->templateMsgDown, $site->getName(), $time->format(DATE_ATOM));
+        $result = strtr(
+            $this->templateMsgDown,
+            [
+                '{SITE_NAME}' => $site->getName(),
+                '{EVENT_TIME}' => $time->format(DATE_ATOM),
+            ]
+        );
 
         return $result;
     }
@@ -25,7 +31,14 @@ class Message
     public function createMsgUp(Site $site, DateTime $time, DateInterval $interval): string
     {
         $humanDowntime = DateTimeInterval::createHumanInterval($interval);
-        $result = sprintf($this->templateMsgUp, $site->getName(), $time->format(DATE_ATOM), $humanDowntime);
+        $result = strtr(
+            $this->templateMsgUp,
+            [
+                '{SITE_NAME}' => $site->getName(),
+                '{EVENT_TIME}' => $time->format(DATE_ATOM),
+                '{DOWNTIME_TIME}' => $humanDowntime,
+            ]
+        );
 
         return $result;
     }
