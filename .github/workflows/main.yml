@@ -27,8 +27,8 @@ jobs:
 
       - name: Run PSALM
         working-directory: ./app
-        run: ./vendor/bin/phpstan
+        run: composer lint
 
       - name: Run Tests
         working-directory: ./app
-        run: ./vendor/bin/phpunit tests/
+        run: composer test
